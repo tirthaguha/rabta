@@ -3,6 +3,13 @@
     "nrwl.angular-console",
     "esbenp.prettier-vscode",
     "dbaeumer.vscode-eslint",
-    "firsttris.vscode-jest-runner"
+    "firsttris.vscode-jest-runner",
+    "editorconfig.editorconfig",
+    "christian-kohler.npm-intellisense",
+    "eamodio.gitlens",
+    "streetsidesoftware.code-spell-checker",
+    "wmaurer.change-case",
+    "dsznajder.es7-react-js-snippets",
+    "bradlc.vscode-tailwindcss"
   ]
 }
