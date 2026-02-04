@@ -1,0 +1,26 @@
+{
+  "name": "@rabta/fed-broker-saml-e2e",
+  "version": "0.0.1",
+  "private": true,
+  "nx": {
+    "implicitDependencies": [
+      "@rabta/fed-broker-saml"
+    ],
+    "targets": {
+      "e2e": {
+        "executor": "@nx/jest:jest",
+        "outputs": [
+          "{projectRoot}/test-output/jest/coverage"
+        ],
+        "options": {
+          "jestConfig": "apps/fed-broker-saml-e2e/jest.config.cts",
+          "passWithNoTests": true
+        },
+        "dependsOn": [
+          "@rabta/fed-broker-saml:build",
+          "@rabta/fed-broker-saml:serve"
+        ]
+      }
+    }
+  }
+}
