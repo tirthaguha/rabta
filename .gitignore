@@ -42,3 +42,10 @@ Thumbs.db
 .nx/workspace-data
 
 test-output
+
+*.crt
+*.key
+*.pem
+.env
+.env.local
+.env.development

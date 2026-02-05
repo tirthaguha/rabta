@@ -5,8 +5,12 @@
   "scripts": {},
   "private": true,
   "dependencies": {
+    "@authenio/samlify-node-xmllint": "^2.0.0",
     "axios": "^1.6.0",
-    "express": "^4.21.2"
+    "cookie-parser": "^1.4.7",
+    "express": "^4.21.2",
+    "jsonwebtoken": "^9.0.3",
+    "samlify": "^2.10.2"
   },
   "devDependencies": {
     "@eslint/js": "^9.8.0",
@@ -21,8 +25,10 @@
     "@swc/core": "~1.5.7",
     "@swc/helpers": "~0.5.11",
     "@swc/jest": "~0.2.38",
+    "@types/cookie-parser": "^1.4.10",
     "@types/express": "^4.17.21",
     "@types/jest": "^30.0.0",
+    "@types/jsonwebtoken": "^9.0.10",
     "@types/node": "20.19.9",
     "esbuild": "^0.19.2",
     "eslint": "^9.8.0",
@@ -30,6 +36,7 @@
     "jest": "^30.0.2",
     "jest-environment-node": "^30.0.2",
     "jest-util": "^30.0.2",
+    "jsonc-eslint-parser": "^2.1.0",
     "nx": "22.4.5",
     "prettier": "~3.6.2",
     "ts-jest": "^29.4.0",
@@ -39,6 +46,7 @@
     "typescript-eslint": "^8.40.0"
   },
   "workspaces": [
-    "apps/*"
+    "apps/*",
+    "libs/*"
   ]
 }

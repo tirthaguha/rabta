@@ -1,14 +1,41 @@
-import express from 'express';
+// addMiddleware, addRoutes,
 
-const host = process.env.HOST ?? 'localhost';
-const port = process.env.PORT ? Number(process.env.PORT) : 3000;
+import {
+  createApp,
+  defaultErrorHandler,
+  notFoundHandler,
+} from '@rabta/express-app';
 
-const app = express();
+import cookieParser from 'cookie-parser';
 
-app.get('/', (req, res) => {
-  res.send({ message: 'Hello API' });
-});
+import authRouter from './routes/auth';
+import dashboardRouter from './routes/dashboard';
+import defaultRouter from './routes/default';
+import metadataRouter from './routes/metadata';
 
-app.listen(port, host, () => {
-  console.log(`[ ready ] http://${host}:${port}`);
-});
+const PORT = process.env.PORT || 3000;
+const app = createApp();
+
+app.use(cookieParser());
+
+app.use('/', defaultRouter);
+app.use('/auth', authRouter);
+app.use('/saml', metadataRouter);
+app.use('/dashboard', dashboardRouter);
+
+app.use(notFoundHandler);
+app.use(defaultErrorHandler);
+
+const startApp = async () => {
+  try {
+    const server = app.listen(PORT, () => {
+      console.log(`Server is running on port ${PORT}`);
+    });
+    server.on('error', console.error);
+  } catch (error) {
+    console.error('Failed to start server:', error);
+    process.exit(1);
+  }
+};
+
+startApp();
