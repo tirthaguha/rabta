@@ -1,32 +1,20 @@
 import { RequestWithSession, sessionMiddleware } from '@rabta/session-manager';
 import { Request, Response, Router } from 'express';
+import { sessionValidationConfig } from '../../constants';
 
 const route = Router();
 
 route.get(
   '/',
-  sessionMiddleware({
-    secret: 'rZ2W5tN0R3rZ2l7E6yKZJYv9p3Y5v8x1o9HcXzYfG6k=',
-    issuer: 'saml-fed-broker',
-    tokenSource: { type: 'cookie', name: 'session_token' },
-  }),
+  sessionMiddleware(sessionValidationConfig),
   async (req: RequestWithSession, res: Response) => {
     const session = req.session || {};
-
-    // console.log('req.session', session);
-    // console.log('req.session tenant', session.data.tenant);
-
-    // res.send({ message: 'Logged out successfully' });
-
     res.redirect('/auth/saml/slo/' + session.data.tenant);
   }
 );
 
-route.get(
-  '/common',
-
-  async (req: Request, res: Response) => {
-    res.send(`
+route.get('/common', async (req: Request, res: Response) => {
+  res.send(`
     <!DOCTYPE html>
     <html>
       <head>
@@ -38,7 +26,6 @@ route.get(
       </body>
     </html>
   `);
-  }
-);
+});
 
 export default route;
