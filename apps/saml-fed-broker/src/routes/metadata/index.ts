@@ -1,6 +1,8 @@
+import { createSP } from '@rabta/saml-utils';
 import { Router } from 'express';
 import { TENANTS } from '../../config/tenants';
-import { createSP } from '../../saml/spFactory';
+import { certificate, privateKey } from '../../constants';
+// import { createSP } from '../../saml/spFactory';
 
 const router = Router();
 
@@ -16,7 +18,7 @@ router.get('/metadata/:tenant', (req, res) => {
     return res.status(404).send('Unknown tenant');
   }
 
-  const sp = createSP(cfg.sp);
+  const sp = createSP({ ...cfg.sp, certificate, privateKey });
 
   const metadata = sp.getMetadata();
 

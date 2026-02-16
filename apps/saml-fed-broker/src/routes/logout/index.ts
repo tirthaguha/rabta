@@ -9,7 +9,7 @@ route.get(
   sessionMiddleware(sessionValidationConfig),
   async (req: RequestWithSession, res: Response) => {
     const session = req.session || {};
-    res.redirect('/auth/saml/slo/' + session.data.tenant);
+    res.redirect('/auth/saml/initiate/slo/' + session.data.tenant);
   }
 );
 

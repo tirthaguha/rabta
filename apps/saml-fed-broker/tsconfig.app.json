@@ -20,10 +20,13 @@
   ],
   "references": [
     {
-      "path": "../../libs/session-manager/tsconfig.lib.json"
+      "path": "../../libs/saml-utils/tsconfig.lib.json"
     },
     {
       "path": "../../libs/express-app/tsconfig.lib.json"
+    },
+    {
+      "path": "../../libs/session-manager/tsconfig.lib.json"
     }
   ]
 }

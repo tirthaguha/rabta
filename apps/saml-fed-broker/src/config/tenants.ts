@@ -33,7 +33,7 @@ MIICqTCCAZECBgGb7wNUtTANBgkqhkiG9w0BAQsFADAYMRYwFAYDVQQDDA1pZC1mZWQtc3lzdGVtMB4X
     sp: {
       entityId: 'http://localhost:3000/auth/saml/sp',
       acsUrl: 'http://localhost:3000/auth/saml/acs/keycloak',
-      sloUrl: 'http://localhost:3000/logout/common',
+      sloUrl: 'http://localhost:3000/auth/saml/slo/keycloak',
     },
   },
 };
