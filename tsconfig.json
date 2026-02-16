@@ -4,16 +4,16 @@
   "files": [],
   "references": [
     {
-      "path": "./apps/fed-broker-saml-e2e"
+      "path": "./apps/saml-fed-broker-e2e"
     },
     {
-      "path": "./apps/fed-broker-saml"
+      "path": "./apps/saml-fed-broker"
     },
     {
       "path": "./libs/express-app"
     },
     {
-      "path": "./libs/user-session-manager"
+      "path": "./libs/session-manager"
     }
   ]
 }

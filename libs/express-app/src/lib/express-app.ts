@@ -1,6 +1,24 @@
-import express, { Application, ErrorRequestHandler, Request, RequestHandler, Response, Router } from "express";
-import ExpressError from "./express-errors";
+import express, {
+  Application,
+  ErrorRequestHandler,
+  Request,
+  RequestHandler,
+  Response,
+  Router,
+} from 'express';
 
+export default class ExpressError extends Error {
+  statusCode: number;
+  details?: string | unknown;
+
+  constructor(message: string, statusCode: number, details?: unknown) {
+    super(message);
+    this.statusCode = statusCode;
+    this.details = details;
+    this.name = 'ExpressError';
+    Error.captureStackTrace(this, this.constructor);
+  }
+}
 
 export const createApp = (): Application => {
   const app = express();
@@ -25,9 +43,13 @@ export const notFoundHandler = (req: Request, res: Response) => {
   });
 };
 
-export const defaultErrorHandler: ErrorRequestHandler = (err: unknown, req: Request, res: Response) => {
+export const defaultErrorHandler: ErrorRequestHandler = (
+  err: unknown,
+  req: Request,
+  res: Response,
+) => {
   const statusCode = err instanceof ExpressError ? err.statusCode : 500;
-  const message = err instanceof Error ? err.message : "Internal Server Error";
+  const message = err instanceof Error ? err.message : 'Internal Server Error';
   const details = err instanceof ExpressError ? err.details : null;
   console.log(statusCode, message, details);
   res.status(statusCode).json({ error: { message, details } });

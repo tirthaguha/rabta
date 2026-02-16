@@ -4,9 +4,9 @@
     {
       "type": "node",
       "request": "launch",
-      "name": "Debug @rabta/fed-broker-saml with Nx",
+      "name": "Debug @rabta/saml-fed-broker with Nx",
       "runtimeExecutable": "npx",
-      "runtimeArgs": ["nx", "serve", "@rabta/fed-broker-saml"],
+      "runtimeArgs": ["nx", "serve", "@rabta/saml-fed-broker"],
       "env": {
         "NODE_OPTIONS": "--inspect=9229"
       },
@@ -15,7 +15,7 @@
       "skipFiles": ["<node_internals>/**"],
       "sourceMaps": true,
       "outFiles": [
-        "${workspaceFolder}/apps/fed-broker-saml/dist/**/*.(m|c|)js",
+        "${workspaceFolder}/apps/saml-fed-broker/dist/**/*.(m|c|)js",
         "!**/node_modules/**"
       ]
     }

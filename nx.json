@@ -40,7 +40,7 @@
       "options": {
         "targetName": "test"
       },
-      "exclude": ["apps/fed-broker-saml-e2e/**/*"]
+      "exclude": ["apps/saml-fed-broker-e2e/**/*"]
     }
   ],
   "targetDefaults": {
@@ -56,6 +56,11 @@
       "cache": true,
       "dependsOn": ["^build"],
       "inputs": ["production", "^production"]
+    }
+  },
+  "release": {
+    "version": {
+      "preVersionCommand": "npx nx run-many -t build"
     }
   }
 }

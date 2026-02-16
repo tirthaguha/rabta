@@ -10,7 +10,7 @@ const swcJestConfig = JSON.parse(
 swcJestConfig.swcrc = false;
 
 module.exports = {
-  displayName: '@rabta/express-app',
+  displayName: '@rabta/saml-fed-broker',
   preset: '../../jest.preset.js',
   testEnvironment: 'node',
   transform: {
