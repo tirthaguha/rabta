@@ -3,7 +3,7 @@ import { createLogger, format, transports } from 'winston';
 const isProd = process.env.NODE_ENV === 'production';
 
 export const logger = createLogger({
-  level: process.env.LOG_LEVEL || 'info',
+  level: process.env.LOG_LEVEL || 'silly',
   format: format.combine(
     format.timestamp(),
     format.errors({ stack: true }),
@@ -15,5 +15,6 @@ export const logger = createLogger({
         ? format.json()
         : format.combine(format.colorize(), format.simple()),
     }),
+    new transports.File({ filename: 'logs/all.log', level: 'info' }),
   ],
 });

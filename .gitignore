@@ -43,9 +43,13 @@ Thumbs.db
 
 test-output
 
+# Environment files
 *.crt
 *.key
 *.pem
 .env
 .env.local
 .env.development
+
+# Logs
+logs

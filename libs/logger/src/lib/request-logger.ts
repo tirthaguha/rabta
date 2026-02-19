@@ -9,11 +9,11 @@ export const requestLogger = (
   const start = Date.now();
 
   res.on('finish', () => {
-    logger.info('http_request', {
+    logger.http('http_request', {
       method: req.method,
       path: req.originalUrl,
       statusCode: res.statusCode,
-      location: res.get('Location') || undefined,
+      location: res.getHeader('location') || '',
       durationMs: Date.now() - start,
       correlationId: req.headers['x-correlation-id'],
       ip: req.ip,
