@@ -7,6 +7,8 @@ import express, {
   Router,
 } from 'express';
 
+import { correlationMiddleware, logger, requestLogger } from '@rabta/logger';
+
 export default class ExpressError extends Error {
   statusCode: number;
   details?: string | unknown;
@@ -24,6 +26,8 @@ export const createApp = (): Application => {
   const app = express();
   app.use(express.json());
   app.use(express.urlencoded({ extended: true }));
+  app.use(correlationMiddleware);
+  app.use(requestLogger);
   return app;
 };
 
@@ -46,11 +50,19 @@ export const notFoundHandler = (req: Request, res: Response) => {
 export const defaultErrorHandler: ErrorRequestHandler = (
   err: unknown,
   req: Request,
-  res: Response,
+  res: Response
 ) => {
   const statusCode = err instanceof ExpressError ? err.statusCode : 500;
   const message = err instanceof Error ? err.message : 'Internal Server Error';
   const details = err instanceof ExpressError ? err.details : null;
-  console.log(statusCode, message, details);
+  logger.error('request_error', {
+    message,
+    statusCode,
+    details,
+    correlationId: req.headers['x-correlation-id'],
+    stack: err instanceof Error ? err.stack : undefined,
+    path: req.originalUrl,
+    method: req.method,
+  });
   res.status(statusCode).json({ error: { message, details } });
 };

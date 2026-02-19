@@ -1,3 +1,4 @@
+import { logger } from '@rabta/logger';
 import {
   createIdP,
   createSP,
@@ -25,6 +26,7 @@ const router = Router();
 router.get('/saml/:tenant', async (req: Request, res: Response) => {
   const tenant = req.params.tenant as string;
   if (!tenant || !TENANTS[tenant]) {
+    logger.error(`Invalid tenant: ${tenant}`);
     return res.status(400).send('Bad Request');
   }
 
@@ -34,11 +36,8 @@ router.get('/saml/:tenant', async (req: Request, res: Response) => {
   const sp = createSP({ ...cfg.sp, certificate, privateKey });
 
   const { context } = await sp.createLoginRequest(idp, 'redirect');
-  // console.log('reqString', reqString);
-  console.log(
-    '\nAUTH REQUEST\n',
-    decodeRequest(context.split('?')[1].split('=')[1]),
-    '\n\n'
+  logger.info(
+    `\nAUTH REQUEST\n${decodeRequest(context.split('?')[1].split('=')[1])}\n`
   );
 
   return res.redirect(context);
@@ -46,25 +45,29 @@ router.get('/saml/:tenant', async (req: Request, res: Response) => {
 
 router.post('/saml/acs/:tenant', async (req: Request, res: Response) => {
   const tenant = req.params.tenant as string;
-  if (!tenant) return res.status(400).send('Invalid tenant');
   const cfg = TENANTS[tenant];
+
+  if (!tenant || !TENANTS[tenant]) {
+    logger.error(`Invalid tenant: ${tenant}`);
+    return res.status(400).send('Bad Request');
+  }
 
   const idp = createIdP(cfg.idp);
   const sp = createSP({ ...cfg.sp, certificate, privateKey });
 
-  console.log(
-    '\nAUTH RESPONSE\n',
-    decodeResponse(req.body?.SAMLResponse),
-    '\n\n'
-  );
+  // logger.info(
+  //   '\nAUTH RESPONSE\n',
+  //   decodeResponse(req.body?.SAMLResponse),
+  //   '\n\n'
+  // );
+
+  logger.info(`\nAUTH RESPONSE\n${decodeResponse(req.body?.SAMLResponse)}\n`);
 
   const { extract } = await sp.parseLoginResponse(idp, 'post', {
     body: req.body,
   });
 
   const sessionIndex = extract.sessionIndex;
-
-  // console.log('/saml/acs extract', req.body);
 
   const user = {
     id: extract.nameID,
@@ -102,6 +105,7 @@ router.get(
   async (req: RequestWithSession, res: Response) => {
     const tenant = req.params.tenant as string;
     if (!tenant || !TENANTS[tenant]) {
+      logger.error(`Invalid tenant: ${tenant}`);
       return res.status(400).send('Bad Request');
     }
     const cfg = TENANTS[tenant];
@@ -117,10 +121,8 @@ router.get(
       sessionIndex,
     });
 
-    console.log(
-      '\nLOGOUT REQUEST\n',
-      decodeRequest(context.split('?')[1].split('=')[1]),
-      '\n\n'
+    logger.info(
+      `\nnLOGOUT REQUEST\n${decodeRequest(context.split('?')[1].split('=')[1])}\n`
     );
 
     res.clearCookie('session_token');
@@ -131,6 +133,7 @@ router.get(
 router.get('/saml/slo/:tenant', async (req: Request, res: Response) => {
   const tenant = req.params.tenant as string;
   if (!tenant || !TENANTS[tenant]) {
+    logger.error(`Invalid tenant: ${tenant}`);
     return res.status(400).send('Bad Request');
   }
   const cfg = TENANTS[tenant];
@@ -138,17 +141,19 @@ router.get('/saml/slo/:tenant', async (req: Request, res: Response) => {
   const idp = createIdP(cfg.idp);
   const sp = createSP({ ...cfg.sp, certificate, privateKey });
 
-  // console.log(req.query.SAMLResponse);
-
-  console.log(
+  logger.info(
     '\nLOGOUT RESPONSE\n',
     decodeRequest(req.query.SAMLResponse as string),
     '\n\n'
   );
 
+  logger.info(
+    `\nLOGOUT RESPONSE\n${decodeRequest(req.query.SAMLResponse as string)}\n`
+  );
+
   const { extract } = await sp.parseLogoutResponse(idp, 'redirect', req);
 
-  console.log('Logout Response Extracted', extract);
+  logger.info('Logout Response Extracted', extract);
   res.clearCookie('session_token');
 
   return res.redirect('/logout/common');

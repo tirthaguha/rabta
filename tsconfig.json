@@ -17,6 +17,9 @@
     },
     {
       "path": "./libs/saml-utils"
+    },
+    {
+      "path": "./libs/logger"
     }
   ]
 }

@@ -3,7 +3,7 @@ import {
   defaultErrorHandler,
   notFoundHandler,
 } from '@rabta/express-app';
-
+import { logger } from '@rabta/logger';
 import cookieParser from 'cookie-parser';
 
 import authRouter from './routes/auth';
@@ -29,11 +29,13 @@ app.use(defaultErrorHandler);
 const startApp = async () => {
   try {
     const server = app.listen(PORT, () => {
-      console.log(`Server is running on port ${PORT}`);
+      logger.info(`Server is running on port ${PORT}`);
     });
-    server.on('error', console.error);
+    server.on('error', (error) => {
+      logger.error('Server error:', error);
+    });
   } catch (error) {
-    console.error('Failed to start server:', error);
+    logger.error('Failed to start server:', error);
     process.exit(1);
   }
 };

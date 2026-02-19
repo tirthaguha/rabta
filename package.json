@@ -10,7 +10,8 @@
     "cookie-parser": "^1.4.7",
     "express": "^4.21.2",
     "jsonwebtoken": "^9.0.3",
-    "samlify": "^2.10.2"
+    "samlify": "^2.10.2",
+    "winston": "^3.19.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.8.0",
@@ -51,7 +52,8 @@
     "apps/*",
     "libs/express-app",
     "libs/session-manager",
-    "libs/saml-utils"
+    "libs/saml-utils",
+    "libs/logger"
   ],
   "nx": {
     "includedScripts": [],

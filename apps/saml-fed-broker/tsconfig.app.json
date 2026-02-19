@@ -23,6 +23,9 @@
       "path": "../../libs/saml-utils/tsconfig.lib.json"
     },
     {
+      "path": "../../libs/logger/tsconfig.lib.json"
+    },
+    {
       "path": "../../libs/express-app/tsconfig.lib.json"
     },
     {
